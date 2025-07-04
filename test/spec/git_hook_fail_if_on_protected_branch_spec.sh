@@ -18,7 +18,9 @@ Describe "git_hook_fail_if_on_protected_branch.sh"
       End
       Example "fails on branch '$1'"
         export BRANCH_NAME="$1"
+
         When I run script "../git_hook_fail_if_on_protected_branch.sh"
+
         The status should be failure
         The output should include "### FAILED 'pre-push' hook: Trying to push to a protected branch: '$1'."
       End
@@ -33,7 +35,9 @@ Describe "git_hook_fail_if_on_protected_branch.sh"
       End
       Example "succeeds on branch '$1'"
         export BRANCH_NAME="$1"
+
         When I run script "../git_hook_fail_if_on_protected_branch.sh"
+
         The status should be success
         The output should include "### DONE 'pre-push' hook: Branch name '$1' is OK. ###"
       End
