@@ -48,4 +48,67 @@ Describe "git_hook_fail_if_on_protected_branch.sh"
       End
     End
   End
+
+  Describe "Integration tests with real git"
+
+    create_local_git_remote() {
+      mkdir -p "${TEST_GIT_REMOTE_DIRECTORY}"
+      cd "${TEST_GIT_REMOTE_DIRECTORY}"
+      #git init --bare
+      git init
+      git commit --allow-empty -m "initial"
+      git branch master
+      git branch 'feature/JIRA-12345-my-feature-branch'
+    }
+
+    create_temporary_git_repo_with_hook() {
+      export TEST_GIT_REMOTE_DIRECTORY="${SHELLSPEC_TMPDIR}/test_git_repo_remote"
+      create_local_git_remote
+
+      export TEST_GIT_DIRECTORY="${SHELLSPEC_TMPDIR}/test_git_repo"
+      mkdir -p "${TEST_GIT_DIRECTORY}"
+      cd "${TEST_GIT_DIRECTORY}"
+      git init
+      git commit --allow-empty -m "initial"
+      git remote add origin "${TEST_GIT_REMOTE_DIRECTORY}"
+      cp "${SHELLSPEC_PROJECT_ROOT}/../git_hook_fail_if_on_protected_branch.sh" "${TEST_GIT_DIRECTORY}/.git/hooks/pre-push"
+    }
+
+    push_to_master() {
+      cd "${TEST_GIT_DIRECTORY}"
+      git checkout -b master
+      git push
+    }
+
+    push_to_feature_branch() {
+      cd "${TEST_GIT_DIRECTORY}"
+      git checkout -b 'feature/JIRA-12345-my-feature-branch'
+      git push
+    }
+
+    delete_temporary_git_repo() {
+      rm -rf "${TEST_GIT_DIRECTORY}"
+      rm -rf "${TEST_GIT_REMOTE_DIRECTORY}"
+    }
+
+    Before create_temporary_git_repo_with_hook
+    After delete_temporary_git_repo
+
+    It "fails on protected branch 'master'"
+
+      When I run push_to_master
+
+      The status should be failure
+      The output should include "### FAILED 'pre-push' hook: Trying to push to a protected branch: 'master'."
+      The error should include ""
+    End
+    It "succeeds on unprotected branch 'feature/JIRA-12345-my-feature-branch'"
+
+      When I run push_to_feature_branch
+
+      The status should be success
+      The output should include "### DONE 'pre-push' hook: Branch name 'feature/JIRA-12345-my-feature-branch' is OK. ###"
+      The error should include ""
+    End
+  End
 End
