@@ -18,9 +18,9 @@ protected_branch_regex="^(main|master|develop)$"
 
 if [[ "${local_branch}" =~ ${protected_branch_regex} ]]
 then
-    echo "### FAILED 'pre-push' hook: Trying to push to a protected branch: ${local_branch}. Add ' --no-verify' flag if you are absolutely sure."
+    echo "### FAILED 'pre-push' hook: Trying to push to a protected branch: '${local_branch}'. Add ' --no-verify' flag if you are absolutely sure."
     exit 1
 fi
 
-echo "### DONE 'pre-push' hook: Branch name ${local_branch} is OK. ###"
+echo "### DONE 'pre-push' hook: Branch name '${local_branch}' is OK. ###"
 exit 0

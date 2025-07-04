@@ -15,19 +15,19 @@ Describe "git_hook_fail_if_on_protected_branch.sh"
         export BRANCH_NAME="main"
         When I run script "../git_hook_fail_if_on_protected_branch.sh"
         The status should be failure
-        The output should include "### FAILED 'pre-push' hook: Trying to push to a protected branch: main."
+        The output should include "### FAILED 'pre-push' hook: Trying to push to a protected branch: 'main'."
       End
       It "fails on branch 'master'"
         export BRANCH_NAME="master"
         When I run script "../git_hook_fail_if_on_protected_branch.sh"
         The status should be failure
-        The output should include "### FAILED 'pre-push' hook: Trying to push to a protected branch: master."
+        The output should include "### FAILED 'pre-push' hook: Trying to push to a protected branch: 'master'."
       End
       It "fails on branch 'develop'"
         export BRANCH_NAME="develop"
         When I run script "../git_hook_fail_if_on_protected_branch.sh"
         The status should be failure
-        The output should include "### FAILED 'pre-push' hook: Trying to push to a protected branch: develop."
+        The output should include "### FAILED 'pre-push' hook: Trying to push to a protected branch: 'develop'."
       End
     End
 
@@ -36,25 +36,25 @@ Describe "git_hook_fail_if_on_protected_branch.sh"
         export BRANCH_NAME="other"
         When I run script "../git_hook_fail_if_on_protected_branch.sh"
         The status should be success
-        The output should include "### DONE 'pre-push' hook: Branch name other is OK. ###"
+        The output should include "### DONE 'pre-push' hook: Branch name 'other' is OK. ###"
       End
       It "succeeds on branch 'release'"
         export BRANCH_NAME="release"
         When I run script "../git_hook_fail_if_on_protected_branch.sh"
         The status should be success
-        The output should include "### DONE 'pre-push' hook: Branch name release is OK. ###"
+        The output should include "### DONE 'pre-push' hook: Branch name 'release' is OK. ###"
       End
       It "succeeds on branch 'hotfix/1.2.3'"
         export BRANCH_NAME="hotfix/1.2.3"
         When I run script "../git_hook_fail_if_on_protected_branch.sh"
         The status should be success
-        The output should include "### DONE 'pre-push' hook: Branch name hotfix/1.2.3 is OK. ###"
+        The output should include "### DONE 'pre-push' hook: Branch name 'hotfix/1.2.3' is OK. ###"
       End
       It "succeeds on branch 'feature/JIRA-12345-my-feature-branch'"
         export BRANCH_NAME="feature/JIRA-12345-my-feature-branch"
         When I run script "../git_hook_fail_if_on_protected_branch.sh"
         The status should be success
-        The output should include "### DONE 'pre-push' hook: Branch name feature/JIRA-12345-my-feature-branch is OK. ###"
+        The output should include "### DONE 'pre-push' hook: Branch name 'feature/JIRA-12345-my-feature-branch' is OK. ###"
       End
     End
   End
