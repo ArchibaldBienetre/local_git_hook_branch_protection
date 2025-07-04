@@ -9,7 +9,7 @@
 # * Set that directory as your hooks directory:
 # git config --global core.hooksPath "${HOME}/.githooks"
 # * Move this file into your hooks directory, and rename it to "pre-push" (or, set a symbolic link "pre-push" in your git hooks directory)
-# cp gitHookFailIfOnProtectedBranch.sh "${HOME}/.githooks/pre-push
+# cp git_hook_fail_if_on_protected_branch.sh "${HOME}/.githooks/pre-push
 
 echo "### GIT 'pre-push' hook: Checking branch name... ###"
 local_branch=$(git rev-parse --abbrev-ref HEAD)
