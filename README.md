@@ -22,10 +22,13 @@ mkdir "${HOME}/.githooks"
 git config --global core.hooksPath "${HOME}/.githooks"
 ```
 * Move the script file into your hooks directory, and rename it to "pre-push" 
-  * or, set a symbolic link "pre-push" in your git hooks directory
 ```
 cp git_hook_fail_if_on_protected_branch.sh "${HOME}/.githooks/pre-push
 ```
+* or, set a symbolic link "pre-push" in your git hooks directory
+```
+ln -s "${HOME}/repos/local_git_hook_branch_protection/git_hook_fail_if_on_protected_branch.sh" "${HOME}/.githooks/pre-push"
+``` 
 
 ## Override the Git hook
 
