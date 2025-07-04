@@ -1,3 +1,8 @@
+# strict mode
+# https://web.archive.org/web/20250114155712/https://redsymbol.net/articles/unofficial-bash-strict-mode/
+set -euo pipefail
+IFS=$'\n\t'
+
 Describe "git_hook_fail_if_on_protected_branch.sh"
   Describe "Unit tests with mocked git"
 
