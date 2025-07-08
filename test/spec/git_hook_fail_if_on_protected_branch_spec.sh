@@ -3,6 +3,7 @@
 set -euo pipefail
 IFS=$'\n\t'
 
+
 Describe "git_hook_fail_if_on_protected_branch.sh"
   Describe "Unit tests with mocked git"
 
@@ -52,6 +53,7 @@ Describe "git_hook_fail_if_on_protected_branch.sh"
   Describe "Integration tests with real git"
 
     init_git() {
+      echo "init_git"
 
       git config --global init.defaultBranch main
 
@@ -63,6 +65,7 @@ Describe "git_hook_fail_if_on_protected_branch.sh"
     }
 
     create_local_git_remote() {
+      echo "create_local_git_remote"
       mkdir -p "${TEST_GIT_REMOTE_DIRECTORY}"
       cd "${TEST_GIT_REMOTE_DIRECTORY}"
       init_git
@@ -70,6 +73,8 @@ Describe "git_hook_fail_if_on_protected_branch.sh"
     }
 
     create_temporary_git_repo_with_hook() {
+      echo "create_temporary_git_repo_with_hook"
+
       export TEST_GIT_REMOTE_DIRECTORY="${SHELLSPEC_TMPDIR}/test_git_repo_remote"
       create_local_git_remote
 
@@ -82,19 +87,39 @@ Describe "git_hook_fail_if_on_protected_branch.sh"
       cp "${SHELLSPEC_PROJECT_ROOT}/../git_hook_fail_if_on_protected_branch.sh" "${TEST_GIT_DIRECTORY}/.git/hooks/pre-push"
     }
 
+    log_git_status() {
+      echo "### Git branches: "
+      git branch
+
+      echo "### Git hooks directory: "
+      ls -l1sa .git/hooks
+      # ls -l1sa .git/hooks | grep -v sample
+    }
+
     push_to_develop() {
+      echo "push_to_develop"
       cd "${TEST_GIT_DIRECTORY}"
       git checkout -b develop
+
+      # paranoia:
+      log_git_status
+
       git push
     }
 
     push_to_feature_branch() {
+      echo "push_to_feature_branch"
       cd "${TEST_GIT_DIRECTORY}"
       git checkout -b 'feature/JIRA-12345-my-feature-branch'
+
+      # paranoia:
+      log_git_status
+
       git push
     }
 
     delete_temporary_git_repo() {
+      echo "delete_temporary_git_repo"
       rm -rf "${TEST_GIT_DIRECTORY}"
       rm -rf "${TEST_GIT_REMOTE_DIRECTORY}"
     }
