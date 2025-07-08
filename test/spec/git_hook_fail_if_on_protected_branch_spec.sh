@@ -51,14 +51,23 @@ Describe "git_hook_fail_if_on_protected_branch.sh"
 
   Describe "Integration tests with real git"
 
+    init_git() {
+
+      # On CI's Ubuntu 22.04, the git version is too old and won't support "main" as the main branch nor the init.defaultBranch setting.
+      # git config --global init.defaultBranch main
+
+      # I can't use a bare repo for the "remote" repository, or I won't be able to create branches
+      #git init --bare
+      git init
+      git config user.email "joe.test@example.com"
+      git config user.name "Joe Test"
+    }
+
     create_local_git_remote() {
       mkdir -p "${TEST_GIT_REMOTE_DIRECTORY}"
       cd "${TEST_GIT_REMOTE_DIRECTORY}"
-      #git init --bare
-      git init
+      init_git
       git commit --allow-empty -m "initial"
-      git branch master
-      git branch 'feature/JIRA-12345-my-feature-branch'
     }
 
     create_temporary_git_repo_with_hook() {
@@ -68,15 +77,15 @@ Describe "git_hook_fail_if_on_protected_branch.sh"
       export TEST_GIT_DIRECTORY="${SHELLSPEC_TMPDIR}/test_git_repo"
       mkdir -p "${TEST_GIT_DIRECTORY}"
       cd "${TEST_GIT_DIRECTORY}"
-      git init
+      init_git
       git commit --allow-empty -m "initial"
       git remote add origin "${TEST_GIT_REMOTE_DIRECTORY}"
       cp "${SHELLSPEC_PROJECT_ROOT}/../git_hook_fail_if_on_protected_branch.sh" "${TEST_GIT_DIRECTORY}/.git/hooks/pre-push"
     }
 
-    push_to_master() {
+    push_to_develop() {
       cd "${TEST_GIT_DIRECTORY}"
-      git checkout -b master
+      git checkout -b develop
       git push
     }
 
@@ -94,12 +103,12 @@ Describe "git_hook_fail_if_on_protected_branch.sh"
     Before create_temporary_git_repo_with_hook
     After delete_temporary_git_repo
 
-    It "fails on protected branch 'master'"
+    It "fails on protected branch 'develop'"
 
-      When I run push_to_master
+      When I run push_to_develop
 
       The status should be failure
-      The output should include "### FAILED 'pre-push' hook: Trying to push to a protected branch: 'master'."
+      The output should include "### FAILED 'pre-push' hook: Trying to push to a protected branch: 'develop'."
       The error should include ""
     End
     It "succeeds on unprotected branch 'feature/JIRA-12345-my-feature-branch'"
