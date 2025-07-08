@@ -53,8 +53,7 @@ Describe "git_hook_fail_if_on_protected_branch.sh"
 
     init_git() {
 
-      # On CI's Ubuntu 22.04, the git version is too old and won't support "main" as the main branch nor the init.defaultBranch setting.
-      # git config --global init.defaultBranch main
+      git config --global init.defaultBranch main
 
       # I can't use a bare repo for the "remote" repository, or I won't be able to create branches
       #git init --bare
