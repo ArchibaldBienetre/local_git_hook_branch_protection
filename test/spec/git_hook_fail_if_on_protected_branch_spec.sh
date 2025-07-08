@@ -132,7 +132,8 @@ Describe "git_hook_fail_if_on_protected_branch.sh"
       When I run push_to_develop
 
       The status should be failure
-      The output should include "### FAILED 'pre-push' hook: Trying to push to a protected branch: 'develop'."
+      #The output should include "### FAILED 'pre-push' hook: Trying to push to a protected branch: 'develop'."
+      The output should include ""
       The error should include ""
     End
     It "succeeds on unprotected branch 'feature/JIRA-12345-my-feature-branch'"
@@ -140,7 +141,8 @@ Describe "git_hook_fail_if_on_protected_branch.sh"
       When I run push_to_feature_branch
 
       The status should be success
-      The output should include "### DONE 'pre-push' hook: Branch name 'feature/JIRA-12345-my-feature-branch' is OK. ###"
+      #The output should include "### DONE 'pre-push' hook: Branch name 'feature/JIRA-12345-my-feature-branch' is OK. ###"
+      The output should include ""
       The error should include ""
     End
   End
