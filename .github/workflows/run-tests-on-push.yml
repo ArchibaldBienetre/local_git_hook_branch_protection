@@ -3,7 +3,7 @@ run-name: ${{ github.workflow }} - running in ${{ github.repository }}, triggere
 on: [ push ]
 jobs:
   Run-ShellSpec-Tests:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     steps:
       - name: "Check out"
         uses: actions/checkout@v4
