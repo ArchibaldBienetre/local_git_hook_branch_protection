@@ -1,5 +1,7 @@
 # Git pre-push hook: fail if on a protected branch
 
+[![Run tests](https://github.com/ArchibaldBienetre/local_git_hook_branch_protection/actions/workflows/run-tests-on-push.yml/badge.svg)](https://github.com/ArchibaldBienetre/local_git_hook_branch_protection/actions/workflows/run-tests-on-push.yml)
+
 Use this repository's [git_hook_fail_if_on_protected_branch.sh](./git_hook_fail_if_on_protected_branch.sh) as local pre-push hook 
 in Git to prevent accidental pushes to `main`, `master`, `develop`.
 
