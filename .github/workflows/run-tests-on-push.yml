@@ -1,0 +1,25 @@
+name: Run tests
+run-name: ${{ github.workflow }} - running in ${{ github.repository }}, triggered by ${{ github.event_name }}
+on: [ push ]
+jobs:
+  Run-ShellSpec-Tests:
+    # need an older runner because we want KCov to be available via the package manager
+    runs-on: ubuntu-22.04
+    steps:
+      - name: "Check out"
+        uses: actions/checkout@v4
+      - name: "Install ShellSpec + KCov"
+        run: |
+          cd test
+          ./install_shellspec.sh
+          ./install_kcov.sh
+      - name: "Run ShellSpec tests with coverage"
+        run: |
+          cd test
+          ./run_shellspec_tests.sh --kcov
+      - name: "Upload Test Coverage data"
+        uses: actions/upload-artifact@v4
+        with:
+          name: "Test Coverage"
+          path: test/coverage
+
