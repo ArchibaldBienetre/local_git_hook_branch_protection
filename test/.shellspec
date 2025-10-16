@@ -1,1 +1,6 @@
 --require spec_helper
+
+--kcov-options "--include-path=../"
+--kcov-options "--exclude-path=./"
+--kcov-options "--include-pattern=.sh"
+--kcov-options "--exclude-pattern=spec_helper.sh"
