@@ -12,5 +12,5 @@ IFS=$'\n\t'
 sudo apt-get update
 
 # This used to work on Ubuntu 22.04;
-# it fails on 24.04, but is available as a GitHub action.
+# it fails on 24.04, but is available as a GitHub action: https://github.com/marketplace/actions/action-kcov
 sudo apt-get install kcov
