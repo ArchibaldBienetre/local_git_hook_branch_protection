@@ -56,6 +56,7 @@ Describe "git_hook_fail_if_on_protected_branch.sh"
       echo "init_git"
 
       git config --global init.defaultBranch main
+      git config --global push.autoSetupRemote true
 
       # I can't use a bare repo for the "remote" repository, or I won't be able to create branches
       #git init --bare
@@ -140,9 +141,8 @@ Describe "git_hook_fail_if_on_protected_branch.sh"
 
       When I run push_to_feature_branch
 
+      The output should include "### DONE 'pre-push' hook: Branch name 'feature/JIRA-12345-my-feature-branch' is OK. ###"
       The status should be success
-      #The output should include "### DONE 'pre-push' hook: Branch name 'feature/JIRA-12345-my-feature-branch' is OK. ###"
-      The output should include ""
       The error should include ""
     End
   End
